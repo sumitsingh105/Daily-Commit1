@@ -1,0 +1,23 @@
+name: Daily Commit Workflow
+
+on:
+  schedule:
+    - cron: '5 4 * * *'  # runs at 04:05 UTC daily
+  workflow_dispatch:      # enables manual trigger
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Add dummy commit - 24ds3000105@ds.study.iitm.ac.in
+        run: |
+          echo "Daily commit at $(date)" >> daily-log.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add daily-log.txt
+          git commit -m "Daily commit on $(date)"
+          git push
+
